@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Search from './components/Search'
 import BookList from './components/BookList'
+import Cart from './components/Cart'
 import './App.css'
 
 class App extends Component {
@@ -37,15 +38,32 @@ class App extends Component {
     })
   }
 
+  addToCart = id => {
+    this.setState({
+      ...this.state,
+      books: this.state.books.map(book => {
+        if (book.id === id) book.inCart = true
+        return book
+      })
+    })
+  }
 
   render() {
     return (
       <main>
         <Search matchingBook={this.matchingBook} />
         <br/>
-        <ul>
-          <BookList books={this.state.books} searchInput={this.state.searchInput} />
-        </ul>
+        <div className='container'>
+          <ul>
+            <BookList books={this.state.books} searchInput={this.state.searchInput} addToCart={this.addToCart}/>
+          </ul>
+        </div>
+        <div className='container'>
+          <h2>Cart</h2>
+          <ul>
+            <Cart books={this.state.books} />
+          </ul>
+        </div>
       </main>
     )
   }
